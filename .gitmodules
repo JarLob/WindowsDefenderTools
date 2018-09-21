@@ -1,3 +1,9 @@
 [submodule "loadlibrary"]
 	path = loadlibrary
 	url = https://github.com/taviso/loadlibrary
+[submodule "afl-pin"]
+	path = afl-pin
+	url = https://github.com/vanhauser-thc/afl-pin.git
+[submodule "afl"]
+	path = afl
+	url = https://github.com/mirrorer/afl

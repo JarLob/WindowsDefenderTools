@@ -15,7 +15,13 @@ Recreate WindowsDefenderTools
         
     Offsets are in the .map file generated during loadlibrary setup?
 
-    No symbols as of 2018-09-04 :(
+No symbols as of 2018-09-04 :(
+
+DOESNTWORK:
+   MD5 -> Google
+   Internet Archive (static MS link to latest definitions)
+   Malware sites (Softpedia, etc)
+   (I probably have the proper version on my other machine but...) 
 
 README/Locating offsets:
     RVA_pe_read_string_ex @ +0x3EE353
@@ -30,3 +36,29 @@ README/Locating offsets:
 
 "Note that the included patches only contain my OutputDebugStringA hooking code. This will let you experiment with the engine and reproduce some of the demos I have shown. Implementing more advanced functionality demonstrated in my presentation is left as an exercise to the reader, eg: building a fuzzer, supporting format string-based output, dumping out arbitrary non-string buffers, hooking ExitProcess to understand when emulation is ending, or collecting coverage with a customized Lighthouse Pintool (https://github.com/gaasedelen/lighthouse)."
     => Slides: "~3k LoC added"
+
+afl-pin
+-------
+
+PIN Tool needs to be cross-compiled to 32-bits (IA32). 
+
+The PIN Tool can be built in DEBUG mode (`make -f makefile.pin debug`): Debug output to stderr, no shared memory bitmap (must be executed outside AFL).
+
+Implemented BBL blacklist to speed things up
+    Does it work? -> Not really: it's not much faster, and AFL doesn't recognize paths with missing BBLs
+
+Based on DEBUG build results afl-pin's BBL tracing works after cross-compilation. This is also confirmed by ALFing different malware samples: AFL discovers 1-1 path for each sample, although it's not clear how these numbers can be efficiently increased...
+
+Use the power of the fork server?
+    set entry point where argv gets parsed first? How/when is argv populated?
+    Created dummy test program (entrytest). It ran forever under AFL-Pin (when fuzzing, not when debugging) when functions other than _start was provided as forkserver entry point. Turns out that you must explicitly call exit() _in the function_ that you provided as entry point! 
+	main()->bar() performance: 9.x -> 21.x test/sec!
+
+    Moved __rsignal call to separate function, added exit()'s: 
+	0.1 -> 0.4 test/sec
+
+
+/home/b/projects/av-fuzz/WindowsDefenderTools-re/afl-pin/pin-3.6/pin -t /usr/local/lib/pintool/afl-pin.so -forkserver -entrypoint _start -alternative -- ./mpclient_taviso /tmp/input/eicar.com
+
+afl-fuzz-pin.sh -i /tmp/input -o /tmp/output -forkserver -entrypoint _start -t 15000  -alternative  -- ./mpclient_taviso @@
+
