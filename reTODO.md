@@ -62,3 +62,9 @@ Use the power of the fork server?
 
 afl-fuzz-pin.sh -i /tmp/input -o /tmp/output -forkserver -entrypoint _start -t 15000  -alternative  -- ./mpclient_taviso @@
 
+
+### Dyninst
+
+Dyninst has a 32-bit cross-compilation option for the runtime (RT), but not for libcommon...
+
+afl-pin README: "forkserver is faster than afl-dyninst"
