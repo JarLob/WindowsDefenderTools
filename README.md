@@ -1,3 +1,7 @@
+This is a fork of [@0xAlexei](https://github.com/0xAlexei)'s Windows Defender Emulator Tools repo where I recreate and experiment with his and [@taviso](https://github.com/taviso)'s work. This repo contains submodules to other repos with custom branches that allow creating a super slow mpengine fuzzer with afl-pin. I'm not merging the branches to allow following of different lines of experimentation, and I also keep a source controlled copy of my personal notes here (I hope my fails will help someone ;)).
+
+The `artwork` directory contains some [fuzzer synthesis](https://lcamtuf.blogspot.com/2014/11/pulling-jpegs-out-of-thin-air.html) results (1M+1M iterations from an empty file and the EICAR test file). 
+
 # Windows Defender Emulator Tools
 This repository contains code that I wrote to help with my reverse engineering of Windows Defender Antivirus' binary emulator, complimentary to my presentations on the emulator at Black Hat USA 2018 and DEF CON 26. 
 
