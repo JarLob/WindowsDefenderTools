@@ -2,6 +2,14 @@ This is a fork of [@0xAlexei](https://github.com/0xAlexei)'s Windows Defender Em
 
 The `artwork` directory contains some [fuzzer synthesis](https://lcamtuf.blogspot.com/2014/11/pulling-jpegs-out-of-thin-air.html) results (1M+1M iterations from an empty file and the EICAR test file). 
 
+Main findings:
+
+* [YaDiff](https://github.com/DGA-MI-SSI/YaCo) is a great tool to do symbol porting until official symbols are released for the latest mpengine.dll
+* AFL-Pin works with minor modifications (must be cross-compiled to 32-bit)
+  * Choosing the right forkserver entrypoint has significant performance impact, but Pin is still very slow
+  * AFL-Pin's forkserver detects explicit exit()'s, so our wrapper function must finish execution like that (not with return)
+* Blacklisting BBL's while collecting coverage doesn't seem to have a significant performance impact 
+
 # Windows Defender Emulator Tools
 This repository contains code that I wrote to help with my reverse engineering of Windows Defender Antivirus' binary emulator, complimentary to my presentations on the emulator at Black Hat USA 2018 and DEF CON 26. 
 
