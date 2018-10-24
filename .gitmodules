@@ -1,9 +1,11 @@
 [submodule "loadlibrary"]
 	path = loadlibrary
 	url = https://github.com/v-p-b/loadlibrary
+    branch = afl-pin
 [submodule "afl-pin"]
 	path = afl-pin
 	url = https://github.com/v-p-b/afl-pin.git
+    branch = wdt
 [submodule "afl"]
 	path = afl
 	url = https://github.com/mirrorer/afl
