@@ -1,10 +1,7 @@
-Add dependencies (as submodules)
---------------------------------
-
-trivial...
-
 Recreate loadlibrary
 --------------------
+
+Nothing to see here, everything just works as expected (although I can't find mpstreamfuzz...)
 
 Recreate WindowsDefenderTools
 -----------------------------
