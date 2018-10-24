@@ -12,7 +12,7 @@ Recreate WindowsDefenderTools
         
     Offsets are in the .map file generated during loadlibrary setup?
 
-No symbols as of 2018-09-04 :(
+No symbols as of 2018-09-04 (not even for older versions, symbol servers down) :(
 
 DOESNTWORK:
    MD5 -> Google
