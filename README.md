@@ -9,6 +9,8 @@ Main findings:
   * Choosing the right forkserver entrypoint has significant performance impact, but Pin is still very slow
   * AFL-Pin's forkserver detects explicit exit()'s, so our wrapper function must finish execution like that (not with return)
 * Blacklisting BBL's while collecting coverage doesn't seem to have a significant performance impact 
+* As [Maksim Shudrak suggested](https://twitter.com/MShudrak/status/1055151103078105088), `__rsignal()` performs expensive initialization on first run, but we can spare this phase during subsequent calls.
+  * This means about 30x performance improvement in my measurements! (This is not persistent mode yet, we're still forking every subsequent call)
 
 # Windows Defender Emulator Tools
 This repository contains code that I wrote to help with my reverse engineering of Windows Defender Antivirus' binary emulator, complimentary to my presentations on the emulator at Black Hat USA 2018 and DEF CON 26. 
