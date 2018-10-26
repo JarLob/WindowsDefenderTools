@@ -14,7 +14,7 @@ Recreate WindowsDefenderTools
 
 No symbols as of 2018-09-04 (not even for older versions, symbol servers down) :(
 
-DOESNTWORK:
+DOESNTWORK (looking for old DLL's for which symbols are available): 
    MD5 -> Google
    Internet Archive (static MS link to latest definitions)
    Malware sites (Softpedia, etc)
@@ -65,3 +65,15 @@ afl-fuzz-pin.sh -i /tmp/input -o /tmp/output -forkserver -entrypoint _start -t 1
 Dyninst has a 32-bit cross-compilation option for the runtime (RT), but not for libcommon...
 
 afl-pin README: "forkserver is faster than afl-dyninst"
+
+### Persistent mode
+
+https://twitter.com/MShudrak/status/1055151103078105088
+
+"I managed to achieve ~30-70 exec/s under Pin. If you instrument mpclient with afl-clang-fast++ and setup __AFL_LOOP(100000) right before *second* __rsignal you can significantly improve performance. Of course you still need to instrument mpengine.dll with Pin." (emphasis mine)
+
+After the first __rsignal() call subsequent executions run much faster
+    -> VDM's already loaded?
+
+fopen(filename) outside call_rsignal() fails (only) under AFL-Pin, only works with const dummy path
+    why?
