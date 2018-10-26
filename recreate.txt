@@ -73,7 +73,38 @@ https://twitter.com/MShudrak/status/1055151103078105088
 "I managed to achieve ~30-70 exec/s under Pin. If you instrument mpclient with afl-clang-fast++ and setup __AFL_LOOP(100000) right before *second* __rsignal you can significantly improve performance. Of course you still need to instrument mpengine.dll with Pin." (emphasis mine)
 
 After the first __rsignal() call subsequent executions run much faster
-    -> VDM's already loaded?
+    -> VDM's already loaded - this is confirmed by inotify:
+		$ for i in `seq 1 5`; do inotifywatch -v -e access -t 15 *.vdm;done     
+		Establishing watches...
+		Total of 4 watches.
+		Finished establishing watches, now collecting statistics.
+		Will listen for events for 15 seconds.
+		total  access  filename
+		405    405     mpavbase.vdm
+		262    262     mpasbase.vdm
+		147    147     mpavdlta.vdm
+		52     52      mpasdlta.vdm
+		Establishing watches...
+		Total of 4 watches.
+		Finished establishing watches, now collecting statistics.
+		Will listen for events for 15 seconds.
+		No events occurred.
+		Establishing watches...
+		Total of 4 watches.
+		Finished establishing watches, now collecting statistics.
+		Will listen for events for 15 seconds.
+		No events occurred.
+		Establishing watches...
+		Total of 4 watches.
+		Finished establishing watches, now collecting statistics.
+		Will listen for events for 15 seconds.
+		No events occurred.
+		Establishing watches...
+		Total of 4 watches.
+		Finished establishing watches, now collecting statistics.
+		Will listen for events for 15 seconds.
+		No events occurred.
+
 
 fopen(filename) outside call_rsignal() fails (only) under AFL-Pin, only works with const dummy path
     why?
