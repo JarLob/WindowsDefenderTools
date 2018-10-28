@@ -108,3 +108,26 @@ After the first __rsignal() call subsequent executions run much faster
 
 fopen(filename) outside call_rsignal() fails (only) under AFL-Pin, only works with const dummy path
     why?
+
+### Intel PT
+
+#### honggfuzz 
+
+honggfuzz supports PT out of the box
+    libipt API change needs some patching: https://github.com/google/honggfuzz/issues/206#issuecomment-433627965
+
+relies on ptrace() - debugger detection in mpclient needs to be disabled
+
+trancing seems to be working, but supplying inputs persistent-style (without restarting the process) needs compilation with hfuzz-cc
+    maybe manual patching of honggfuzz is easier? <<< TODO
+
+using persistent mode (or even netdriver) is problematic because everything needs to be cross-compiled to 32-bit
+    this includes libipt, libunwind and libbfd at least
+        installing libunwind:i386 basically breaks the OS installation on ubuntu
+    Most AV's are 32-bit only!
+    
+    could build everything i a 32-bit VM, but hypervisor support for PT is not great
+        only supported in VMWare Workstation beta
+        KVM status is unclear
+        Xen may work, but I won't install that on my Skylake box for reasons...
+
