@@ -126,8 +126,22 @@ using persistent mode (or even netdriver) is problematic because everything need
         installing libunwind:i386 basically breaks the OS installation on ubuntu
     Most AV's are 32-bit only!
     
-    could build everything i a 32-bit VM, but hypervisor support for PT is not great
+    could build everything in a 32-bit VM, but hypervisor support for PT is not great
         only supported in VMWare Workstation beta
         KVM status is unclear
         Xen may work, but I won't install that on my Skylake box for reasons...
 
+    SOLUTION: Use a container like it's 2018 \o/
+        Programs run natively, all CPU features are available
+        Can build a 32-bit userland without messing with the host system
+
+        PoC built on xenial (trusty has outdated libc headers)
+        clang-6.0 from llvm repo
+
+    `docker run --privileged ...` is needed to access HW perf counters.
+
+    using the wrong feedback cmdline switch can make you spend hours figuring out why PT events are not recorded...
+
+    HF_ITER style persistence is the simplest to implement in this case
+        https://github.com/google/honggfuzz/blob/master/docs/PersistentFuzzing.md#hf_iter-style
+    I waste resources by creating files for testcases, full in-memory can probably be implemented by modifying ReadStream(), GetStreamSize(), etc.
