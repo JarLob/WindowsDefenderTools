@@ -119,7 +119,7 @@ honggfuzz supports PT out of the box
 relies on ptrace() - debugger detection in mpclient needs to be disabled
 
 trancing seems to be working, but supplying inputs persistent-style (without restarting the process) needs compilation with hfuzz-cc
-    maybe manual patching of honggfuzz is easier? <<< TODO
+    maybe manual patching of honggfuzz is easier? 
 
 using persistent mode (or even netdriver) is problematic because everything needs to be cross-compiled to 32-bit
     this includes libipt, libunwind and libbfd at least
@@ -145,3 +145,4 @@ using persistent mode (or even netdriver) is problematic because everything need
     HF_ITER style persistence is the simplest to implement in this case
         https://github.com/google/honggfuzz/blob/master/docs/PersistentFuzzing.md#hf_iter-style
     I waste resources by creating files for testcases, full in-memory can probably be implemented by modifying ReadStream(), GetStreamSize(), etc.
+        Done in loadlibrary: 47e96a4
