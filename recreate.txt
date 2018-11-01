@@ -145,4 +145,13 @@ using persistent mode (or even netdriver) is problematic because everything need
     HF_ITER style persistence is the simplest to implement in this case
         https://github.com/google/honggfuzz/blob/master/docs/PersistentFuzzing.md#hf_iter-style
     I waste resources by creating files for testcases, full in-memory can probably be implemented by modifying ReadStream(), GetStreamSize(), etc.
-        Done in loadlibrary: 47e96a4
+        Done in loadlibrary/intelpt branch
+
+    How do we verify if it's working properly?
+        Replace fuzzed input with static buffer (EICAR) and monitor coverage
+            Watching with eyeballs show that itp it asymptotic around 4100, time to new BB increases ~exponentially-> good
+                Still, new BB's are disvocered in suspiciously late stages
+                    Maybe in-module caching?
+            -Q seems useful!
+                Turns out my implementation was buggy
+                Corrected version shows much higher BB coverage (n*100k vs. n*10k), EngineScanCallback() reports increasingly diverse results
